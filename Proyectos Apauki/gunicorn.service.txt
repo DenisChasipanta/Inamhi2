@@ -1,0 +1,13 @@
+[Unit]
+Description=gunicorn daemon for Directorio interno INAMHI
+After=network.target
+
+[Service]
+User=srvsistemastics
+Group=srvsistemastics
+WorkingDirectory=/home/srvsistemastics/transfDirectorio/directorioWeb/
+ExecStart=/home/srvsistemastics/transfDirectorio/envDirectorioUbuntu/bin/gunicorn -c /home/srvsistemastics/transfDirectorio/directorioWeb/gunicorn_config.py directorioWeb.wsgi
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

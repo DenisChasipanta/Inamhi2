@@ -1,0 +1,5 @@
+    def calcular_horas_dias_disponibles(self):
+        ausencias = Ausencia.objects.filter(empleado=self)
+        total_horas_dias_utilizadas = sum(ausencia.tiempo for ausencia in ausencias)
+        horas_dias_disponibles = self.horas_dias_disponibles - total_horas_dias_utilizadas
+        return horas_dias_disponibles

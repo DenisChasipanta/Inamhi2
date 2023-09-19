@@ -1,0 +1,33 @@
+    # Filtro de ordenamiento
+    ordenamiento = request.GET.get('ordenamiento')
+
+    if ordenamiento == 'alfabeticamente':
+        registros = sorted(registros, key=lambda registro: remover_caracteres_especiales(registro.nombres_apellidos).lower())
+    elif ordenamiento == 'unidad':
+        registros = registros.order_by('unidad_pertenece')
+    else:
+        registros = Registro.objects.order_by('numero_registro')
+
+
+---------------------------------------------
+  <!- Filtro de ordenamiento (Alfebéticamente o por número de registro) ->
+  <form method="get" class="filter">
+    <label for="ordenamiento">Ordenar:</label>
+    <select id="ordenamiento" name="ordenamiento">
+      <option value="alfabeticamente" {% if ordenamiento == 'alfabeticamente' %}selected{% endif %}>Alfabéticamente</option>
+      <option value="unidad" {% if ordenamiento == 'unidad' %}selected{% endif %}>Por unidad a la que pertenece</option>
+      <option value="por_numero_registro" {% if ordenamiento == 'por_numero_registro' %}selected{% endif %}>Por número de registro</option>
+    </select>
+    <input type="hidden" name="search_query" value="{{ search_query }}">
+    <button type="submit">Aplicar</button>
+  </form>
+
+----------------------------
+'ordenamiento': ordenamiento,
+
+------------------------------
+        '''
+        # Convertir la lista ordenada de vuelta a un objeto QuerySet de Django
+        registros_ids = [registro.id for registro in registros]
+        registros = Registro.objects.filter(id__in=registros_ids).order_by('nombres_apellidos')
+        '''
